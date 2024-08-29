@@ -41,7 +41,7 @@ img,video{
 
 /* #endregion */
 /* #region GLOBAL FOOTER / NAVBAR */
-#kalenderPage img{
+#filterPage img{
     width: 80px
  }
  #createPage img{
@@ -66,6 +66,9 @@ img,video{
     align-items: center;
     list-style-type: none;
 }
+.footerNav {
+    position: relative;
+}
 /* Fixed-size purple circle */
 .highlight {
     position: absolute;
@@ -78,41 +81,3 @@ img,video{
     left: 0;
     transition: transform 0.3s ease-in-out;
 }
-
-/* Adjusting SVG size (already done) */
-#kalenderPage img {
-    width: 80px;
-}
-
-#createPage img {
-    width: 55px;
-}
-
-#listsPage img {
-    width: 100px;
-}
-
-/* Navbar styles */
-.navbar {
-    position: fixed;
-    width: 100%;
-    background-color: var(--grey-dark);
-    bottom: 0;
-}
-
-.footerNav {
-    position: relative;
-}
-
-.footerNav ul {
-    display: grid;  
-    grid-template-columns: repeat(3, 1fr);
-    justify-items: center;
-    align-items: center;
-    list-style-type: none;
-    position: relative;
-}
-/* #endregion */
-/* #region js */
-
-/* #endregion */

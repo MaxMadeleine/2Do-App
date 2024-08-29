@@ -1,4 +1,5 @@
 //#region FOOTER NAVIGATION
+
 // Select all nav items
 const navItems = document.querySelectorAll('.nav');
 
@@ -31,152 +32,215 @@ function moveHighlight(target) {
     highlight.style.transform = `translateX(${leftPosition}px)`;
 }
 //#endregion
-//#region BUILD FRONT PAGE
+
+//#region MAIN VARIABLES
+
 const main = document.getElementById('main');
 const controls = document.getElementById('controls');
 const lists = document.getElementById('lists');
 const category = document.getElementById('category');
-//navbar
+
+// Navbar buttons
 const filterPageButton = document.getElementById('filterPage');
 const categoryPageButton = document.getElementById('createPage');
 const listsPageButton = document.getElementById('listsPage');
+
+// Categories and tasks storage
+const categories = ['school', 'home', 'work', 'shopping'];
+let currentCategory = '';
+const tasks = {
+    school: [],
+    home: [],
+    work: [],
+    shopping: []
+};
 //#endregion
-//#region LOAD SIDE
+
+//#region NAVBAR NAVIGATION
+
 categoryPageButton.addEventListener('click', () => {
-    buildCatecory();
+    buildCategoryPage();
+    moveHighlight(categoryPageButton); // Move highlight to category
 });
 
 listsPageButton.addEventListener('click', () => {
-    buildLists();
+    if (currentCategory) {
+        renderCategoryTasksPage(currentCategory);
+    } else {
+        buildCategoryPage();
+    }
+    moveHighlight(listsPageButton); // Move highlight to lists
 });
 
 filterPageButton.addEventListener('click', () => {
-    buildFilter(); 
+    buildFilterPage();
+    moveHighlight(filterPageButton); // Move highlight to filter
 });
 
+//#endregion
+
+//#region BUILD CATEGORY PAGE
+
+function buildCategoryPage() {
+    controls.innerHTML = '<h2>Select a Category</h2>';
+    lists.innerHTML = ''; // Clear list view
+    category.innerHTML = ''; // Clear category section
+
+    categories.forEach(cat => {
+        const categoryButton = document.createElement('button');
+        categoryButton.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+        categoryButton.onclick = () => {
+            currentCategory = cat;
+            renderCategoryTasksPage(cat);
+            moveHighlight(listsPageButton); // Move highlight to lists when category is selected
+        };
+        category.appendChild(categoryButton);
+    });
+}
+
+//#endregion
+
+//#region RENDER CATEGORY TASKS PAGE
+
+function renderCategoryTasksPage(cat) {
+    category.innerHTML = `<h2>Category: ${cat.charAt(0).toUpperCase() + cat.slice(1)}</h2>`;
+    buildTaskInput(cat);
+}
+
+function buildTaskInput(cat) {
+    controls.innerHTML = `
+        <input type="text" id="taskInput" placeholder="Enter new task...">
+        <input type="date" id="taskDate">
+        <button onclick="addTask('${cat}')">Add Task</button>
+    `;
+    renderTasks(cat); // Show tasks for the selected category
+}
+
+function addTask(cat) {
+    const taskInput = document.getElementById('taskInput');
+    const taskDate = document.getElementById('taskDate');
+    const taskName = taskInput.value.trim();
+    const taskDueDate = taskDate.value;
+
+    if (taskName !== '' && taskDueDate !== '') {
+        tasks[cat].push({
+            id: Date.now(),
+            title: taskName,
+            status: false,
+            date: taskDueDate,
+            category: cat
+        });
+        taskInput.value = ''; // Clear the input
+        taskDate.value = '';  // Clear the date input
+        renderTasks(cat); // Update task list
+    }
+}
+
+function renderTasks(cat) {
+    let taskHTML = '<ul>';
+    tasks[cat].forEach(task => {
+        taskHTML += `
+            <li>
+                ${task.title} (${task.category}) - ${task.status ? 'Completed' : `Due: ${task.date}`} 
+                <button onclick="markTaskComplete(${task.id}, '${cat}')">${task.status ? 'Undo' : 'Complete'}</button>
+            </li>`;
+    });
+    taskHTML += '</ul>';
+    lists.innerHTML = taskHTML;
+}
+
+function markTaskComplete(taskId, cat) {
+    const task = tasks[cat].find(t => t.id === taskId);
+    if (task) {
+        task.status = !task.status;
+        renderTasks(cat); // Update the task list to reflect changes
+    }
+}
+
+//#endregion
+
+//#region BUILD FILTER PAGE
+
 function buildFilterPage() {
-    buildFilter();
+    controls.innerHTML = `
+        <section id="filterContainer">
+            <button onclick="filterCallback('today')">Today</button>
+            <button onclick="filterCallback('completed')">Completed</button>
+            <button onclick="filterCallback('all')">All</button>
+        </section>
+    `;
+    lists.innerHTML = '';
+    category.innerHTML = ''; // Clear category section
+    moveHighlight(filterPageButton); // Move highlight to filter
 }
 
-function buildCatecoryPage() {
-    buildFilter();
-    showLisFromDate();
-}
-//#endregion
-//#region BYG FILTER
-buildFilter();
-
-function buildFilter() {
-    let filterHTML = `<section id="filterContainer"><button onclick="filterCallback('today')">today</button><button onclick="filterCallback('completet')">completet</button><button onclick="filterCallback('all')">all</button></section>`;
-    controls.innerHTML = filterHTML;
-}
-
-function filterCallback(type){
-
-    console.log(type);
-    if (type=='today') {
-        showLisFromDate()
-    }
-    if (type=='completet') {
-        showLisFromCompletet()
-    }
-    if (type=='all') {
-        showLisFromAll()
+function filterCallback(type) {
+    if (type === 'today') {
+        showTasksFromToday();
+    } else if (type === 'completed') {
+        showCompletedTasks();
+    } else if (type === 'all') {
+        showAllTasks();
     }
 }
-//#endregion
-//#region LIST ITEMS DUMMYDATA
-const todoItems = [
-    {
-        id: 1,
-        title: 'Item 1',
-        status: false,
-        date: '2024-08-28',
-    },
-    {
-        id: 2,
-        title: 'Item 2',
-        status: false,
-        date: '2024-08-28'
-    },
-    {
-        id: 3,
-        title: 'Item 3',
-        status: true,
-        date: '2024-01-03'
-    },
-    {
-        id: 4,
-        title: 'Item 4',
-        status: false,
-        date: '2024-08-28'
-    },
-    {
-        id: 5,
-        title: 'Item 5',
-        status: true,
-        date: '2024-01-05'
-    }
-];
 
-//#endregion
-//#region FILTER
-
-function showLisFromDate() {
+// Filter: Show tasks for today
+function showTasksFromToday() {
     const today = new Date().toISOString().split('T')[0];
-    let myHTML = '<ul>';
+    let filteredTasksHTML = '<ul>';
     
-    todoItems.forEach(listItem => {
-        if (listItem.date === today) { 
-            console.log(listItem);
-            myHTML += `<li>${listItem.title}</li>`;
-        }
+    Object.keys(tasks).forEach(cat => {
+        tasks[cat].forEach(task => {
+            if (task.date === today) {
+                filteredTasksHTML += `
+                    <li>${task.title} (${task.category}) 
+                    <button onclick="markTaskComplete(${task.id}, '${cat}')">${task.status ? 'Undo' : 'Complete'}</button>
+                    </li>`;
+            }
+        });
     });
     
-    myHTML += '</ul>';
-    document.getElementById('lists').innerHTML = myHTML; 
+    filteredTasksHTML += '</ul>';
+    lists.innerHTML = filteredTasksHTML;
 }
 
-showLisFromDate();
-
-
-function showLisFromCompletet (){
-    let myHTML = '<ul>';
-    todoItems.forEach(listItem => {
-        if(listItem.status == true){
-            console.log(listItem);
-            myHTML += `<li>${listItem.title}</li>`;
-        }
+// Filter: Show completed tasks
+function showCompletedTasks() {
+    let filteredTasksHTML = '<ul>';
+    
+    Object.keys(tasks).forEach(cat => {
+        tasks[cat].forEach(task => {
+            if (task.status) {
+                filteredTasksHTML += `
+                    <li>${task.title} (${task.category}) - Completed
+                    <button onclick="markTaskComplete(${task.id}, '${cat}')">Undo</button>
+                    </li>`;
+            }
+        });
     });
-myHTML += '</ul>';
-    lists.innerHTML = myHTML;
+    
+    filteredTasksHTML += '</ul>';
+    lists.innerHTML = filteredTasksHTML;
 }
 
-function showLisFromAll (){
-    console.log('sorterPåAll');
-    let myHTML = '<ul>';
-    todoItems.forEach(listItem => {
-        console.log(listItem);
-        myHTML += `<li>${listItem.title}</li>`;
+// Filter: Show all tasks
+function showAllTasks() {
+    let allTasksHTML = '<ul>';
+    
+    Object.keys(tasks).forEach(cat => {
+        tasks[cat].forEach(task => {
+            allTasksHTML += `
+                <li>${task.title} (${task.category}) - ${task.status ? 'Completed' : `Due: ${task.date}`}
+                <button onclick="markTaskComplete(${task.id}, '${cat}')">${task.status ? 'Undo' : 'Complete'}</button>
+                </li>`;
+        });
     });
-myHTML += '</ul>';
-    lists.innerHTML = myHTML;
+    
+    allTasksHTML += '</ul>';
+    lists.innerHTML = allTasksHTML;
 }
 
 //#endregion
-//#region CREATE CATEGORY
-function buildCatecory() {
-    let filterHTML = `<div id="shoppingImg"><img src="Assets/Images/Homepage/Group 10.png"></div>
-    <div id="shoppingImg"><img src="Assets/Images/Homepage/Group 10.png"></div>
-    <div id="shoppingImg"><img src="Assets/Images/Homepage/Group 10.png"></div>`;
-    controls.innerHTML = filterHTML;
-}
-//#endregion
-//#region CREATE LISTS
-function buildLists() {
-    let filterHTML = `<div id="shoppingImg"><img src="Assets/Images/Homepage/Group 10.png"></div>
-    <div id="shoppingImg"><img src="Assets/Images/Homepage/Group 10.png"></div>
-    <div id="shoppingImg"><img src="Assets/Images/Homepage/Group 10.png"></div>`;
-    controls.innerHTML = filterHTML;
-}
-//#endregion
+
+// Initialize the app with the default view
+buildFilterPage();
