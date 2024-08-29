@@ -4,13 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2Do App</title>
+    <link rel="stylesheet" href="Assets/CSS/main.css">
+    <script src="Assets/JS/main.js" defer></script>
 </head>
 <body>
-    <!-- NAVBAR -->
-    <footer>
-        <nav>
-
+    <!-- #region HEADER -->
+    <header class="headers">
+            
+    </header>
+    <!-- #endregion -->
+    <!-- #region MAIN CONTENT -->
+    <main id="main">
+        <section id="controls"></section>
+        <section id="lists"></section>
+        <section id="category"></section>
+    </main>    
+    <!-- #endregion -->
+    <!-- #region NAVBAR -->
+    <footer class="navbar">
+        <nav class="footerNav">
+            <ul>
+                <li><a href="#" id="filterPage" class="nav"><img src="Assets/Images/kalender.svg" alt="kalender"></a></li>
+                <li><a href="#" id="createPage" class="nav"><img src="Assets/Images/empty-clipboard--work-plain-clipboard-task-list-company-office.svg" alt="clipboard"></a></li>
+                <li><a href="#" id="listsPage" class="nav"><img src="Assets/Images/Group 311.svg" alt="Group"></a></li>
+            </ul>
+            <span class="highlight"></span> <!-- The single purple circle -->
         </nav>
     </footer>
+    <!-- #endregion -->
 </body>
 </html>

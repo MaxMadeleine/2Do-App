@@ -1,0 +1,118 @@
+/* #region MAIN SHIT IMPORTS A "GOOGLE FONT" */
+@import url("https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@100;200;400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Creepster&display=swap");
+html::-webkit-scrollbar {
+    display: none;
+  scroll-behavior: smooth;  
+}
+*{
+  padding: 0;
+  margin: 0;
+}
+/* VARIABLES IN HTML: */
+:root {
+--grey-dark: #363636;
+--grey-light: #979797;
+--purple: #8687E7;
+--red:#FF4949;
+--red-light:#FF8080;
+--yellow-light:#FFCC80;
+--green-light:#24A19C;
+--blue--dark:#4179CC;
+
+}
+body {
+  font-family: "Smooch Sans", sans-serif; /*"SMOOCH SANS" IS A GOOGLE FONT*/
+  font-weight: 400;
+  max-width: auto;
+  margin: auto;
+  background-color: rgb(255, 255, 255);
+}
+img,video{
+    display: block;
+    height: auto;
+    width: 100%;
+}
+/* #endregion MAIN SHIT  */
+/* #region GLOBAL HEADER */
+
+/* #endregion */
+/* #region CATECORY */
+
+/* #endregion */
+/* #region GLOBAL FOOTER / NAVBAR */
+#kalenderPage img{
+    width: 80px
+ }
+ #createPage img{
+     width: 55px
+ }
+ #listsPage img{
+     width: 100px;
+ }
+.navbar{
+    position: fixed;
+    width: 100%;
+    background-color: var(--grey-dark);
+    height: auto;
+    bottom: 0;
+    padding: 1rem;
+
+}
+.footerNav ul {
+    display: grid;  
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    align-items: center;
+    list-style-type: none;
+}
+/* Fixed-size purple circle */
+.highlight {
+    position: absolute;
+    width: 100px;  /* Set the fixed size */
+    height: 100px; /* Set the fixed size */
+    background-color: var(--purple);
+    border-radius: 50%;
+    z-index: -1; /* Behind the SVG */
+    bottom: 1px; /* Position it behind the icons */
+    left: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Adjusting SVG size (already done) */
+#kalenderPage img {
+    width: 80px;
+}
+
+#createPage img {
+    width: 55px;
+}
+
+#listsPage img {
+    width: 100px;
+}
+
+/* Navbar styles */
+.navbar {
+    position: fixed;
+    width: 100%;
+    background-color: var(--grey-dark);
+    bottom: 0;
+}
+
+.footerNav {
+    position: relative;
+}
+
+.footerNav ul {
+    display: grid;  
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    align-items: center;
+    list-style-type: none;
+    position: relative;
+}
+/* #endregion */
+/* #region js */
+
+/* #endregion */
