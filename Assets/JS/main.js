@@ -32,7 +32,6 @@ function moveHighlight(target) {
     highlight.style.transform = `translateX(${leftPosition}px)`;
 }
 //#endregion
-
 //#region MAIN VARIABLES
 
 const main = document.getElementById('main');
@@ -55,12 +54,12 @@ const tasks = {
     shopping: []
 };
 //#endregion
-
 //#region NAVBAR NAVIGATION
 
+// Move circle to category
 categoryPageButton.addEventListener('click', () => {
     buildCategoryPage();
-    moveHighlight(categoryPageButton); // Move highlight to category
+    moveHighlight(categoryPageButton); 
 });
 
 listsPageButton.addEventListener('click', () => {
@@ -69,38 +68,36 @@ listsPageButton.addEventListener('click', () => {
     } else {
         buildCategoryPage();
     }
-    moveHighlight(listsPageButton); // Move highlight to lists
+    moveHighlight(listsPageButton);
 });
 
 filterPageButton.addEventListener('click', () => {
     buildFilterPage();
-    moveHighlight(filterPageButton); // Move highlight to filter
+    moveHighlight(filterPageButton);
 });
 
 //#endregion
-
 //#region BUILD CATEGORY PAGE
 
 function buildCategoryPage() {
     controls.innerHTML = '<h2>Select a Category</h2>';
-    lists.innerHTML = ''; // Clear list view
-    category.innerHTML = ''; // Clear category section
+    lists.innerHTML = ''; 
+    category.innerHTML = '';
 
     categories.forEach(cat => {
         const categoryButton = document.createElement('button');
-        categoryButton.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+        categoryButton.textContent = cat;
         categoryButton.onclick = () => {
             currentCategory = cat;
             renderCategoryTasksPage(cat);
-            moveHighlight(listsPageButton); // Move highlight to lists when category is selected
+            moveHighlight(listsPageButton);
         };
         category.appendChild(categoryButton);
     });
 }
 
 //#endregion
-
-//#region RENDER CATEGORY TASKS PAGE
+//#region BUILD CATEGORY TASKS PAGE
 
 function renderCategoryTasksPage(cat) {
     category.innerHTML = `<h2>Category: ${cat.charAt(0).toUpperCase() + cat.slice(1)}</h2>`;
@@ -158,7 +155,6 @@ function markTaskComplete(taskId, cat) {
 }
 
 //#endregion
-
 //#region BUILD FILTER PAGE
 
 function buildFilterPage() {
@@ -240,7 +236,7 @@ function showAllTasks() {
     lists.innerHTML = allTasksHTML;
 }
 
+buildFilterPage();
 //#endregion
 
-// Initialize the app with the default view
-buildFilterPage();
+
