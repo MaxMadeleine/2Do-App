@@ -1,4 +1,11 @@
+// write cool JS hwere!!
+// pwa serviceworker
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js");
+}
+
 //#region FOOTER NAVIGATION
+
 
 // Select all nav items
 const navItems = document.querySelectorAll('.nav');
